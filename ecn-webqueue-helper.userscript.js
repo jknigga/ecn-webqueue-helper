@@ -6,6 +6,7 @@
 // @author       Jakob Knigga
 // @match        https://engineering.purdue.edu/webqueue/*
 // @require      https://code.jquery.com/jquery-2.2.4.min.js
+// @updateURL    https://raw.githubusercontent.com/jknigga/ecn-webqueue-helper/master/ecn-webqueue-helper.userscript.js
 // @grant        none
 // ==/UserScript==
 
