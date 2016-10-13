@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         ECN Webqueue Helper
-// @namespace    jknigga
+// @namespace    https://github.com/jknigga/ecn-webqueue-helper
 // @version      0.4
 // @description  try to take over the world!
 // @author       Jakob Knigga
