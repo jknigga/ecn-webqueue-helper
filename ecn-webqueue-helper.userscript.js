@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ECN Webqueue Helper
 // @namespace    https://github.com/jknigga/ecn-webqueue-helper
-// @version      0.5
+// @version      0.6
 // @description  try to take over the world!
 // @author       Jakob Knigga
 // @match        https://engineering.purdue.edu/webqueue/*
@@ -38,17 +38,17 @@
         }
         function getRows() {
             removeOnclick();
-            $('.head-number').before('<th class="head-spam" style="width:45px;">Spam?</th>');
+            $('.head-number').before('<th class="head-trash" style="width:45px;">Trash?</th>');
             $('.body-number').each(function(){
                 var num = $(this).html();
-                $(this).before('<td class="spam-column"><button class="spam-button" style="font-size: 9px;" id="'+num+'">Spam</button></td>');
+                $(this).before('<td class="trash-column"><button class="trash-button" style="font-size: 9px;" id="'+num+'">Trash</button></td>');
             });
         }
-        function markSpamAjax(queue,item){
+        function markTrashAjax(queue,item){
             $.ajax({
                 method: "POST",
                 url: "https://engineering.purdue.edu/webqueue/index.cgi",
-                data: { action: "edit", queue_name: queue, number : item, refile_queue : "spamspam", submit: "Mark as SPAM" }
+                data: { action: "edit", queue_name: queue, number : item, refile_queue : "trash", submit: "Mark as Trash" }
             })
                 .done(function() {
                 $('.body-number').filter(function(){
@@ -58,12 +58,12 @@
         }
         $(document).ready(function(){
             setInterval(checkPageChange,2000);
-            $('body').on('click','.spam-button',function(){
+            $('body').on('click','.trash-button',function(){
                 var num = $(this).attr('id');
                 var temp = $(this).closest('#item-table').prev('.group-by-header').html();
                 temp = temp.split(': ');
                 var queue = temp[1].toLowerCase();
-                markSpamAjax(queue,num);
+                markTrashAjax(queue,num);
             });
         });
     });
