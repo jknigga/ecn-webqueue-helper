@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ECN Webqueue Helper
 // @namespace    https://github.com/jknigga/ecn-webqueue-helper
-// @version      0.6
+// @version      0.7
 // @description  try to take over the world!
 // @author       Jakob Knigga
 // @match        https://engineering.purdue.edu/webqueue/*
@@ -31,6 +31,9 @@
 
                 $(this).removeAttr('onclick');
                 var item = $(this).find('.body-number').html();
+                if ($.inNumeric(item) == false) {
+                    item = item.replace('<img src="images/lock.gif">&nbsp;','');
+                }
                 $(this).find('td:not(:first)').click(function(){
                     showItem(queue,item,'');
                 });
@@ -41,7 +44,11 @@
             $('.head-number').before('<th class="head-trash" style="width:45px;">Trash?</th>');
             $('.body-number').each(function(){
                 var num = $(this).html();
-                $(this).before('<td class="trash-column"><button class="trash-button" style="font-size: 9px;" id="'+num+'">Trash</button></td>');
+                if ($.isNumeric(num)) {
+                    $(this).before('<td class="trash-column"><button class="trash-button" style="font-size: 9px;" id="'+num+'">Trash</button></td>');
+                } else {
+                    $(this).before('<td class="trash-column"></td>');
+                }
             });
         }
         function markTrashAjax(queue,item){
