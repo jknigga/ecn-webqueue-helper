@@ -33,8 +33,7 @@
                 var item = $(this).find('.body-number').html();
                 if (item) {
                     if (item.indexOf("lock") > 0) {
-                        var replacement = item.replace('<img src="images/lock.gif">&nbsp;','');
-                        item = replacement;
+                        item = item.replace('<img src="images/lock.gif">&nbsp;','');
                     }
                     $(this).find('td:not(:first)').click(function(){
                         showItem(queue,item,'');
