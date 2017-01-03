@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ECN Webqueue Helper
 // @namespace    https://github.com/jknigga/ecn-webqueue-helper
-// @version      0.7.1
+// @version      0.8
 // @description  try to take over the world!
 // @author       Jakob Knigga
 // @match        https://engineering.purdue.edu/webqueue/*
@@ -31,12 +31,15 @@
 
                 $(this).removeAttr('onclick');
                 var item = $(this).find('.body-number').html();
-                if ($.isNumeric(item) == false) {
-                    item = item.replace('<img src="images/lock.gif">&nbsp;','');
+                if (item) {
+                    if (item.indexOf("lock") > 0) {
+                        var replacement = item.replace('<img src="images/lock.gif">&nbsp;','');
+                        item = replacement;
+                    }
+                    $(this).find('td:not(:first)').click(function(){
+                        showItem(queue,item,'');
+                    });
                 }
-                $(this).find('td:not(:first)').click(function(){
-                    showItem(queue,item,'');
-                });
             });
         }
         function getRows() {
@@ -58,10 +61,10 @@
                 data: { action: "edit", queue_name: queue, number : item, refile_queue : "trash", submit: "Mark as Trash" }
             })
                 .done(function() {
-                $('.body-number').filter(function(){
-                    return $(this).text() === item;
-                }).parent().remove();
-            });
+                    $('.body-number').filter(function(){
+                        return $(this).text() === item;
+                    }).parent().remove();
+                });
         }
         $(document).ready(function(){
             setInterval(checkPageChange,2000);
