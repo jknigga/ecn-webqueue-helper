@@ -31,7 +31,7 @@
 
                 $(this).removeAttr('onclick');
                 var item = $(this).find('.body-number').html();
-                if ($.inNumeric(item) == false) {
+                if ($.isNumeric(item) == false) {
                     item = item.replace('<img src="images/lock.gif">&nbsp;','');
                 }
                 $(this).find('td:not(:first)').click(function(){
