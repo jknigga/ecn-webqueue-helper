@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ECN Webqueue Helper
 // @namespace    https://github.com/jknigga/ecn-webqueue-helper
-// @version      0.8
+// @version      0.9
 // @description  try to take over the world!
 // @author       Jakob Knigga
 // @match        https://engineering.purdue.edu/webqueue/*
@@ -12,6 +12,15 @@
 
 (function ($, undefined) {
     $(function () {
+
+        var newstyles = '<style>.row-spam td {background: rgb(255, 232, 232);}</style>';
+
+        var blacklist = [
+            "reply",
+            "info",
+            "today"
+        ];
+
         var refreshtime;
 
         function checkPageChange() {
@@ -22,7 +31,7 @@
                 refreshtime = checktime;
             }
         }
-        function removeOnclick() {
+        function processRow() {
             $('tr').each(function(){
                 var num = $(this).attr('id');
                 var temp = $(this).closest('#item-table').prev('.group-by-header').html();
@@ -39,10 +48,14 @@
                         showItem(queue,item,'');
                     });
                 }
+                var from = $(this).find('.body-from_username').html();
+                if (blacklist.indexOf(from) > 0) {
+                    $(this).addClass('row-spam');
+                }
             });
         }
         function getRows() {
-            removeOnclick();
+            processRow();
             $('.head-number').before('<th class="head-trash" style="width:45px;">Trash?</th>');
             $('.body-number').each(function(){
                 var num = $(this).html();
@@ -66,6 +79,9 @@
                 });
         }
         $(document).ready(function(){
+            //add styles
+            $(document.body).append(newstyles);
+            //do the stuff
             setInterval(checkPageChange,2000);
             $('body').on('click','.trash-button',function(){
                 var num = $(this).attr('id');
