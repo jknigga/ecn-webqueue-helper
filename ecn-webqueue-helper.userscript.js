@@ -1,26 +1,23 @@
 // ==UserScript==
 // @name         ECN Webqueue Helper
 // @namespace    https://github.com/jknigga/ecn-webqueue-helper
-// @version      0.9
+// @version      1.0
 // @description  try to take over the world!
 // @author       Jakob Knigga
 // @match        https://engineering.purdue.edu/webqueue/*
 // @require      https://code.jquery.com/jquery-2.2.4.min.js
 // @updateURL    https://raw.githubusercontent.com/jknigga/ecn-webqueue-helper/master/ecn-webqueue-helper.userscript.js
-// @grant        none
+// @resource     myblacklist https://raw.githubusercontent.com/jknigga/ecn-webqueue-helper/master/blacklist.txt
+// @grant        GM_getResourceText
 // ==/UserScript==
 
 (function ($, undefined) {
     $(function () {
 
+        var raw_list = GM_getResourceText("myblacklist");
+        raw_list = raw_list.replace(/(\r\n|\n|\r)/gm,"");
+        var blacklist = raw_list.split(",");
         var newstyles = '<style>.row-spam td {background: rgb(255, 232, 232);}</style>';
-
-        var blacklist = [
-            "reply",
-            "info",
-            "today"
-        ];
-
         var refreshtime;
 
         function checkPageChange() {
